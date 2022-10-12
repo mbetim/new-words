@@ -15,7 +15,9 @@ export const Header: React.FC = () => {
   return (
     <nav className="mx-auto flex max-w-screen-xl items-center justify-between gap-8 px-4 py-4 sm:px-6 lg:px-8">
       <Link href="/">
-        <a className="text-2xl font-bold transition-colors hover:text-gray-300">New Words</a>
+        <a className="text-2xl font-bold transition-colors hover:text-contrast-secondary">
+          New Words
+        </a>
       </Link>
 
       {session ? (
@@ -47,7 +49,7 @@ export const Header: React.FC = () => {
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="ml-4 hidden h-5 w-5 text-gray-300 transition group-hover:text-gray-400 sm:block"
+                className="ml-4 hidden h-5 w-5 text-contrast-secondary transition group-hover:text-contrast-dark sm:block"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -66,7 +68,9 @@ export const Header: React.FC = () => {
         </DropdownMenu>
       ) : (
         <Link href="/api/auth/signin">
-          <a className="text-sm font-medium transition-colors hover:text-gray-300">Sign in</a>
+          <a className="text-sm font-medium transition-colors hover:text-contrast-secondary">
+            Sign in
+          </a>
         </Link>
       )}
     </nav>
