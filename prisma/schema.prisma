@@ -14,13 +14,12 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id String @id @default(cuid())
-}
-
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     userId            String
     type              String
     provider          String
@@ -38,7 +37,10 @@ model Account {
 }
 
 model Session {
-    id           String   @id @default(cuid())
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     sessionToken String   @unique
     userId       String
     expires      DateTime
@@ -46,13 +48,17 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     name          String?
-    email         String?   @unique
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
+    definitions   Definition[]
 }
 
 model VerificationToken {
@@ -61,4 +67,43 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Language {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name         String        @unique
+    abbr         String        @unique
+    definitions  Definition[]
+    translations Translation[]
+}
+
+// TODO: Synonyms
+model Definition {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    value        String
+    description  String // @db.Text
+    knownFrom    String? // @db.Text
+    languageId   String
+    language     Language      @relation(fields: [languageId], references: [id])
+    userId       String
+    user         User          @relation(fields: [userId], references: [id])
+    translations Translation[]
+}
+
+model Translation {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    value                  String
+    definitionId           String
+    definition             Definition @relation(fields: [definitionId], references: [id])
+    translatedToLanguageId String
+    translatedToLanguage   Language   @relation(fields: [translatedToLanguageId], references: [id])
 }
