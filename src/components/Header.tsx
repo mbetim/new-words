@@ -13,7 +13,7 @@ export const Header: React.FC = () => {
   const { data: session } = useSession();
 
   return (
-    <nav className="mx-auto flex max-w-screen-xl items-center justify-between gap-8 px-4 py-4 sm:px-6 lg:px-8">
+    <nav className="container mx-auto flex items-center justify-between gap-8 px-6 py-4 sm:px-4">
       <Link href="/">
         <a className="text-2xl font-bold transition-colors hover:text-contrast-secondary">
           New Words
