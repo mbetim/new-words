@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         primary: {
           default: "#0c4a6e",
+          dark: "#1E293B",
         },
         contrast: {
           primary: "#ffffff",
