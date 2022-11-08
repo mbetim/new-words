@@ -7,6 +7,7 @@ import { DefinitionFormDialog } from "../components/DefinitionFormDialog";
 import { useDialog } from "../components/Dialog";
 import { Header } from "../components/Header";
 import { trpc } from "../utils/trpc";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const Home: NextPage = () => {
   const { status } = useSession();
@@ -34,9 +35,12 @@ const Home: NextPage = () => {
 
       <main className="container mx-auto p-4">
         <button
-          className="mb-2 rounded bg-contrast-primary p-2 text-sm text-primary-default"
+          className="mb-2 flex items-center gap-2 rounded bg-contrast-primary p-2 text-sm text-primary-default"
           onClick={definitionFormDialog.open}
         >
+          <span>
+            <AiOutlinePlus />
+          </span>
           New definition
         </button>
 

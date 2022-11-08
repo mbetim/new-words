@@ -1,5 +1,6 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
 
 export const useDialog = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -23,12 +24,20 @@ export const DialogContent: React.FC<DialogPrimitive.DialogContentProps> = (prop
     <DialogPrimitive.Content
       className="fixed top-1/2 left-1/2 z-50 w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-md bg-primary-dark p-4 md:w-full"
       {...props}
-    />
+    >
+      {props.children}
+
+      <DialogPrimitive.Close asChild>
+        <button className="absolute top-[22px] right-[18px] transition-colors hover:text-contrast-dark">
+          <AiOutlineClose />
+        </button>
+      </DialogPrimitive.Close>
+    </DialogPrimitive.Content>
   </DialogPrimitive.Portal>
 );
 
 export const DialogTitle: React.FC<DialogPrimitive.DialogTitleProps> = (props) => (
-  <DialogPrimitive.Title className="mb-2 text-xl font-bold" {...props} />
+  <DialogPrimitive.Title className="mb-2 flex items-center text-xl font-bold" {...props} />
 );
 export const DialogDescription: React.FC<DialogPrimitive.DialogDescriptionProps> = (props) => (
   <DialogPrimitive.Description className="text-sm text-contrast-secondary" {...props} />
