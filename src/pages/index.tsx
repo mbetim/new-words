@@ -6,13 +6,17 @@ import { DefinitionCard } from "../components/DefinitionCard";
 import { DefinitionFormDialog } from "../components/DefinitionFormDialog";
 import { useDialog } from "../components/Dialog";
 import { Header } from "../components/Header";
-import { trpc } from "../utils/trpc";
+import { inferQueryOutput, trpc } from "../utils/trpc";
 import { AiOutlinePlus } from "react-icons/ai";
+import { DefinitionDialog } from "../components/DefinitionDialog";
+
+type Definition = inferQueryOutput<"definitions.getAllDefinitions">["definitions"][number];
 
 const Home: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
   const definitionFormDialog = useDialog();
+  const definitionDialog = useDialog<Definition>();
 
   const { data, isLoading } = trpc.useQuery(["definitions.getAllDefinitions"], {
     enabled: status === "authenticated",
@@ -46,7 +50,11 @@ const Home: NextPage = () => {
 
         <section className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
           {data?.definitions.map((definition) => (
-            <DefinitionCard key={definition.id} definition={definition} />
+            <DefinitionCard
+              key={definition.id}
+              definition={definition}
+              onClick={() => definitionDialog.open(definition)}
+            />
           ))}
         </section>
       </main>
@@ -54,6 +62,12 @@ const Home: NextPage = () => {
       <DefinitionFormDialog
         isOpen={definitionFormDialog.isOpen}
         onClose={definitionFormDialog.close}
+      />
+
+      <DefinitionDialog
+        isOpen={definitionDialog.isOpen}
+        onClose={definitionDialog.close}
+        definition={definitionDialog.data}
       />
     </>
   );
