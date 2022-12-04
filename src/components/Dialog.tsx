@@ -1,15 +1,20 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-export const useDialog = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+export const useDialog = <T,>(initialData?: T) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [data, setData] = useState<T | null>(initialData ?? null);
 
-  const open = React.useCallback(() => setIsOpen(true), []);
-  const close = React.useCallback(() => setIsOpen(false), []);
+  const open = useCallback((newData?: T) => {
+    setIsOpen(true);
+    setData(newData ?? null);
+  }, []);
+  const close = useCallback(() => setIsOpen(false), []);
 
   return {
     isOpen,
+    data,
     open,
     close,
   };
@@ -37,7 +42,7 @@ export const DialogContent: React.FC<DialogPrimitive.DialogContentProps> = (prop
 );
 
 export const DialogTitle: React.FC<DialogPrimitive.DialogTitleProps> = (props) => (
-  <DialogPrimitive.Title className="mb-2 flex items-center text-xl font-bold" {...props} />
+  <DialogPrimitive.Title className="mb-2 flex text-xl font-bold" {...props} />
 );
 export const DialogDescription: React.FC<DialogPrimitive.DialogDescriptionProps> = (props) => (
   <DialogPrimitive.Description className="text-sm text-contrast-secondary" {...props} />
